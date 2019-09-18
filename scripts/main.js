@@ -1,6 +1,8 @@
 var DETAIL_IMAGE_SELECTOR = '[data-image-role="target"]';
 var DETAIL_TITLE_SELECTOR = '[data-image-role="title"]';
 var THUMBNAIL_LINK_SELECTOR = '[data-image-role="trigger"]';
+var NEXT_LINK_SELECTOR = '[data-image-role="next"]';
+var PREV_LINK_SELECTOR = '[data-image-role="next"]';
 var HIDDEN_DETAIL_CLASS = 'hidden-detail';
 var ESC_KEY = 27;
 
@@ -42,6 +44,24 @@ function addThumbClickHandler(thumb) {
     });
 }
 
+function addNextClickHandler(next, thumb) {
+    'use strict';
+    next.addEventListener('click', function (event) {
+        event.preventDefault();
+        setDetailsFromThumb(thumb);
+        showDetails();
+    });
+}
+
+function addPrevClickHandler(prev, thumb) {
+    'use strict';
+    prev.addEventListener('click', function (event) {
+        event.preventDefault();
+        setDetailsFromThumb(thumb);
+        showDetails();
+    });
+}
+
 function getThumbnailsArray() {
     'use strict';
     var thumbnails = document.querySelectorAll(THUMBNAIL_LINK_SELECTOR);
@@ -73,7 +93,16 @@ function addKeyPressHandler() {
 function initializeEvents() {
     'use strict';
     var thumbnails = getThumbnailsArray();
+    var next = document.querySelector(NEXT_LINK_SELECTOR);
+    var prev = document.querySelector(PREV_LINK_SELECTOR);
     thumbnails.forEach(addThumbClickHandler);
+    for (const i of thumbnails) {
+        addNextClickHandler(next, i);
+    }
+    for (const i of thumbnails) {
+        addPrevClickHandler(prev, i);
+    }
+
     addKeyPressHandler();
 }
 
